@@ -1,0 +1,8 @@
+services:
+  moviesearch.webapi:
+    image: moviesearch.webapi
+    build:
+      context: .
+      dockerfile: src/Presentation/MovieSearch.WebApi/Dockerfile
+    ports:
+      - "5000:8080"

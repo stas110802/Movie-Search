@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  moviesearch.webapi:
+    build:
+      context: "D:\\projects\\MovieSearch"
+      dockerfile: "src/Presentation/MovieSearch.WebApi/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/MovieSearch.WebApi.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "moviesearch.webapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\baxto\\.nuget\\packages:/home/app/.nuget/packages"
+    - "D:\\projects\\MovieSearch\\src\\Presentation\\MovieSearch.WebApi:/app:rw"
+    - "D:\\projects\\MovieSearch:/src:rw"
+    working_dir: "/app"

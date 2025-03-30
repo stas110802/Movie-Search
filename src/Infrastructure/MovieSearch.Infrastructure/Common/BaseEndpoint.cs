@@ -1,6 +1,6 @@
 ﻿namespace MovieSearch.Infrastructure.Common;
 
-public class BaseEndpoint
+public abstract class BaseEndpoint(string value)
 {
-    
+    public string Value { get; init; } = value;
 }

@@ -1,3 +1,6 @@
-﻿namespace MovieSearch.Application.Movies.Queries.GetAllMovies;
+﻿using MediatR;
+using MovieSearch.Domain.Dtos;
 
-public record GetAllMoviesQuery();
+namespace MovieSearch.Application.Movies.Queries.GetAllMovies;
+
+public sealed record GetAllMoviesQuery : IRequest<IEnumerable<MovieReadDto>>;

@@ -1,7 +1,7 @@
 ﻿namespace MovieSearch.Infrastructure.Options;
 
-public class ApiOptions
+public class MovieApiOptions
 {
-    public string BaseUri { get; set; }
-    public string? PublicKey { get; set; }
+    public string BaseUri { get; set; } = string.Empty;
+    public string PublicKey { get; set; } = string.Empty;
 }

@@ -3,4 +3,4 @@ using MovieSearch.Domain.Dtos;
 
 namespace MovieSearch.Application.Movies.Queries.GetMoviesByTitle;
 
-public record GetMovieQuery (string Title) : IRequest<IEnumerable<MovieReadDto>>;
+public sealed record GetMovieByTitleQuery (string Title, bool UseHelperApi = true) : IRequest<IEnumerable<MovieReadDto>>;

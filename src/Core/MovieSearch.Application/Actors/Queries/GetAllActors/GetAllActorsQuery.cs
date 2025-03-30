@@ -1,6 +1,6 @@
-﻿namespace MovieSearch.Application.Actors.Queries.GetAllActors;
+﻿using MediatR;
+using MovieSearch.Domain.Dtos;
 
-public class GetAllActorsQuery
-{
-    
-}
+namespace MovieSearch.Application.Actors.Queries.GetAllActors;
+
+public sealed record GetAllActorsQuery : IRequest<IEnumerable<ActorReadDto>>;

@@ -1,6 +1,15 @@
-﻿namespace MovieSearch.Application.Profiles;
+﻿using AutoMapper;
+using MovieSearch.Domain.Dtos;
+using MovieSearch.Domain.Entities;
 
-public class MovieProfile
+namespace MovieSearch.Application.Profiles;
+
+public class MovieProfile : Profile
 {
-    
+    public MovieProfile()
+    {
+        CreateMap<Movie, MovieReadDto>();
+        CreateMap<MovieApiDto, MovieReadDto>();
+        CreateMap<MovieReadDto, Movie>();
+    }
 }

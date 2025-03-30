@@ -1,6 +1,6 @@
-﻿namespace MovieSearch.Application.Movies.Queries.GetMoviesByGenre;
+﻿using MediatR;
+using MovieSearch.Domain.Dtos;
 
-public class GetMovieByGenreQuery
-{
-    
-}
+namespace MovieSearch.Application.Movies.Queries.GetMoviesByGenre;
+
+public sealed record GetMovieByGenreQuery (string Genre) : IRequest<IEnumerable<MovieReadDto>>;

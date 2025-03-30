@@ -1,6 +1,6 @@
-﻿namespace MovieSearch.Application.Movies.Commands.AddActorToMovie;
+﻿using MediatR;
+using MovieSearch.Domain.Dtos;
 
-public class AddActorToMovieCommand
-{
-    
-}
+namespace MovieSearch.Application.Movies.Commands.AddActorToMovie;
+
+public sealed record AddActorToMovieCommand(int MovieId, int ActorId) : IRequest<bool>;

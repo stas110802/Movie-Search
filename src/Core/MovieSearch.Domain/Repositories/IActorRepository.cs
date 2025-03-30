@@ -1,6 +1,10 @@
-﻿namespace MovieSearch.Domain.Repositories;
+﻿using MovieSearch.Domain.Entities;
 
-public class IActorRepository
+namespace MovieSearch.Domain.Repositories;
+
+public interface IActorRepository
 {
-    
+    Task<IEnumerable<Actor>> GetAllAsync();
+    Task AddAsync(Actor actor);
+    Task DeleteAsync(int id);
 }

@@ -4,6 +4,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MovieSearch.MAUI.MVVM.Views.MovieDetailPage">
     <ContentPage.Content>
-        
+        <StackLayout Margin="10,0,0,0">
+            <Image Source="{Binding Movie.Poster}"
+                   Aspect="AspectFill"
+                   HorizontalOptions="Start"
+                   WidthRequest="550"
+                   HeightRequest="350" />
+            <Label Text="{Binding Movie.Title}"
+                   FontAttributes = "Bold"
+                   FontSize="30" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding Movie.Type}"
+                       TextColor="DarkGray"
+                       FontSize="16" />
+                <Label Text=","
+                       FontSize="16" />
+                <Label Text="{Binding Movie.Year}"
+                       Margin="3,0,0,0"
+                       TextColor="DarkGray"
+                       FontSize="16" />
+                <Label Text="year"
+                       TextColor="DarkGray"
+                       Margin="3,0,0,0"
+                       FontSize="16" />
+            </StackLayout>
+            <Label Text="{Binding Movie.Genre}" 
+                   TextColor="DarkGray"
+                   FontSize="16" />
+            <Label Text="{Binding Movie.Description}"
+                   MaximumWidthRequest="700"
+                   HorizontalOptions="Start"
+                   TextColor="DarkGray"/>
+            <Label Text="Actors:" 
+                   FontSize="16"
+                   FontAttributes="Bold" 
+                   TextColor="White"/>
+            <ListView ItemsSource="{Binding Movie.Actors}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

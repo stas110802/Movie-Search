@@ -1,3 +1,6 @@
-﻿namespace MovieSearch.Application.Actors.Commands.CreateActor;
+﻿using MediatR;
+using MovieSearch.Domain.Dtos;
 
-public record CreateActorCommand();
+namespace MovieSearch.Application.Actors.Commands.CreateActor;
+
+public sealed record CreateActorCommand(string Name) : IRequest<ActorReadDto>;

@@ -2,5 +2,7 @@
 
 public enum SearchType
 {
-    
+    Title,
+    Genre,
+    Actor
 }

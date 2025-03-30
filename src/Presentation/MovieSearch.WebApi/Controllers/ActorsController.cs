@@ -8,11 +8,11 @@ namespace MovieSearch.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ActorController : Controller
+public class ActorsController : Controller
 {
     private readonly IMediator _mediator;
 
-    public ActorController(IMediator mediator)
+    public ActorsController(IMediator mediator)
     {
         _mediator = mediator;
     }

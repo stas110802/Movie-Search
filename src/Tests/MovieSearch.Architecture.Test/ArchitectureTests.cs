@@ -5,13 +5,11 @@ namespace MovieSearch.Architecture.Test;
 
 public class ArchitectureTests
 {
-    private const string DomainNamespace = "MovieSearch.Domain";
     private const string ApplicationNamespace = "MovieSearch.Application";
     private const string InfrastructureNamespace = "MovieSearch.Infrastructure";
     private const string PersistenceNamespace = "MovieSearch.Persistence";
     private const string WebApiNamespace = "MovieSearch.WebApi";
     
-
     [Test]
     public void DomainShouldNotHaveDependencyOnOtherProjects()
     {

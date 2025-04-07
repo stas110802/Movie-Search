@@ -24,7 +24,7 @@ public sealed class GetMovieByTitleQueryHandler : IRequestHandler<GetMovieByTitl
         CancellationToken cancellationToken)
     {
         var title = request.Title;
-        var dbSearchMovies = await _repository.GetByTitleAsync(title, 65);
+        var dbSearchMovies = await _repository.GetByTitleAsync(title);
 
         if (dbSearchMovies.Any())
         {

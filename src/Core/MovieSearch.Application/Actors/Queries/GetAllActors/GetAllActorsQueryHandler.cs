@@ -5,7 +5,7 @@ using MovieSearch.Domain.Repositories;
 
 namespace MovieSearch.Application.Actors.Queries.GetAllActors;
 
-public sealed class GetAllActorsQueryHandler: IRequestHandler<GetAllActorsQuery, IEnumerable<ActorReadDto>>
+public sealed class GetAllActorsQueryHandler : IRequestHandler<GetAllActorsQuery, IEnumerable<ActorReadDto>>
 { 
     private readonly IActorRepository _repository;
     private readonly IMapper _mapper;

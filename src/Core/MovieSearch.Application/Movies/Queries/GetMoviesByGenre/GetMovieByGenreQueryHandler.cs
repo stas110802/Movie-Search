@@ -22,7 +22,7 @@ public sealed class GetMovieByGenreQueryHandler : IRequestHandler<GetMovieByGenr
         CancellationToken cancellationToken)
     {
         var genre = request.Genre;
-        var dbSearchMovies = await _repository.GetByGenreAsync(genre, 50);
+        var dbSearchMovies = await _repository.GetByGenreAsync(genre);
         var mapDbSearchMovies = _mapper.Map<IEnumerable<MovieReadDto>>(dbSearchMovies);
 
         return mapDbSearchMovies;

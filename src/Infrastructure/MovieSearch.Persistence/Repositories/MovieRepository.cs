@@ -2,7 +2,6 @@
 using MovieSearch.Domain.Entities;
 using MovieSearch.Domain.Repositories;
 using MovieSearch.Persistence.Data;
-using FuzzySharp;
 
 namespace MovieSearch.Persistence.Repositories;
 
@@ -24,44 +23,43 @@ public sealed class MovieRepository : IMovieRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Movie>> GetByTitleAsync(string title, int ratio = 75)
+    public async Task<IEnumerable<Movie>> GetByTitleAsync(string title)
     {
-        var allMovies = await GetAllAsync();
-        var matches = allMovies
-            .Where(m => Fuzz.Ratio(m.Title, title) > ratio)
-            .ToList();
+        var matches = await _dbContext
+            .Movies
+            .Include(a => a.Actors)
+            .AsNoTracking()
+            .Where(m => EF.Functions.Like(m.Title, $"%{title}%"))
+            .ToListAsync();
+   
+        return matches;
+    }
+
+    public async Task<IEnumerable<Movie>> GetByGenreAsync(string genre)
+    {
+        var matches = await _dbContext
+            .Movies
+            .Include(a => a.Actors)
+            .AsNoTracking()
+            .Where(m =>
+                EF.Functions.Like(m.Genre, $"%{genre}%"))
+            .ToListAsync();
 
         return matches;
     }
 
-    public async Task<IEnumerable<Movie>> GetByGenreAsync(string genre, int ratio = 75)
+    public async Task<IEnumerable<Movie>> GetByActorAsync(string actor)
     {
-        var allMovies = await GetAllAsync();
-        var matches = allMovies
-            .Where(m => Fuzz.Ratio(m.Genre, genre) > ratio)
-            .ToList();
+        var movies = await _dbContext
+            .Movies
+            .Include(m => m.Actors)
+            .AsNoTracking()
+            .Where(m =>
+                m.Actors.Any(a =>
+                    EF.Functions.Like(a.Name, $"%{actor}%")))
+            .ToListAsync();
 
-        return matches;
-    }
-
-    public async Task<IEnumerable<Movie>> GetByActorAsync(string actor, int ratio = 75)
-    {
-        var allMovies = await GetAllAsync();
-        var result = new List<Movie>();
-
-        foreach (var movie in allMovies)
-        {
-            var matches = movie
-                .Actors
-                .Where(m => Fuzz.Ratio(m.Name, actor) > ratio)
-                .ToList();
-            if (matches.Count != 0)
-            {
-                result.Add(movie);
-            }
-        }
-
-        return result;
+        return movies;
     }
 
     public async Task AddAsync(Movie movie)

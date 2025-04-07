@@ -1,25 +1,23 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MovieSearch.MAUI.MVVM.Models;
+using MovieSearch.MAUI.Services;
 using MovieSearch.MAUI.Types;
-using Newtonsoft.Json;
 
 namespace MovieSearch.MAUI.MVVM.ViewModels;
 
-public class MainPageViewModel : INotifyPropertyChanged
+public class MainPageViewModel : NotifyPropertyChangedBase
 {
-    private readonly HttpClient _client;
-    private string _searchQuery;
+    private readonly IMovieService _movieService;
+    private string? _searchQuery;
     private SearchType _selectedAttribute;
     private ObservableCollection<Movie> _movies;
 
-    public MainPageViewModel(HttpClient client)
+    public MainPageViewModel(IMovieService service)
     {
-        SelectedAttribute = SearchType.Title;
-        _client = client;
-        Movies = new ObservableCollection<Movie>();
+        _movieService = service;
+        _selectedAttribute = SearchType.Title;
+        _movies = new ObservableCollection<Movie>();
 
         async void Execute() => await SearchMovies();
         SearchCommand = new Command(Execute);
@@ -28,31 +26,19 @@ public class MainPageViewModel : INotifyPropertyChanged
     public SearchType SelectedAttribute
     {
         get => _selectedAttribute;
-        set
-        {
-            _selectedAttribute = value;
-            OnPropertyChanged();
-        }
+        set => SetField(ref _selectedAttribute, value);
     }
 
-    public string SearchQuery
+    public string? SearchQuery
     {
         get => _searchQuery;
-        set
-        {
-            _searchQuery = value;
-            OnPropertyChanged();
-        }
+        set => SetField(ref _searchQuery, value);
     }
 
     public ObservableCollection<Movie> Movies
     {
         get => _movies;
-        set
-        {
-            _movies = value;
-            OnPropertyChanged();
-        }
+        set => SetField(ref _movies, value);
     }
 
     public ICommand SearchCommand { get; }
@@ -66,20 +52,9 @@ public class MainPageViewModel : INotifyPropertyChanged
             return;
         }
 
-        var filter = GetFilter();
-        var request = $"http://localhost:5000/Movies/{filter}/{SearchQuery}";
-
         try
         {
-            var response = await _client.GetAsync(request);
-            var content = await response.Content.ReadAsStringAsync();
-            var movies = JsonConvert.DeserializeObject<IEnumerable<Movie>>(content);
-
-            if (movies == null)
-            {
-                return;
-            }
-
+            var movies = await _movieService.SearchMoviesAsync(SelectedAttribute, SearchQuery);
             Movies.Clear();
             foreach (var movie in movies)
             {
@@ -91,22 +66,5 @@ public class MainPageViewModel : INotifyPropertyChanged
             await Application.Current.MainPage.DisplayAlert($"Error",
                 $"Can not get movies from API...\n{error.Message}", "Ok");
         }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private char GetFilter()
-    {
-        if (SelectedAttribute == SearchType.Genre)
-            return 'g';
-        if (SelectedAttribute == SearchType.Actor)
-            return 'a';
-
-        return 't';
     }
 }
